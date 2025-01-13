@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package restaurant;
+
+option go_package = "/internal/adapter/grpc/pb";
+
+service RestaurantService {
+    rpc CreateRestaurant(CreateRestaurantRequest) returns (CreateRestaurantResponse);
+    rpc GetRestaurant(GetRestaurantRequest) returns (GetRestaurantResponse);
+    rpc ListRestaurants(ListRestaurantsRequest) returns (ListRestaurantsResponse);
+    rpc AddMenuItem(AddMenuItemRequest) returns (AddMenuItemResponse);
+    rpc GetMenu(GetMenuRequest) returns (GetMenuResponse);
+}
+
+message CreateRestaurantRequest {
+    string name = 1;
+    string location = 2;
+}
+
+message CreateRestaurantResponse {
+    string id = 1;
+}
+
+message GetRestaurantRequest {
+    string id = 1;
+}
+
+message GetRestaurantResponse {
+    string id = 1;
+    string name = 2;
+    string location = 3;
+    string status = 4;
+}
+
+message ListRestaurantsRequest {}
+
+message ListRestaurantsResponse {
+    repeated GetRestaurantResponse restaurants = 1;
+}
+
+message AddMenuItemRequest {
+    string restaurant_id = 1;
+    string name = 2;
+    string description = 3;
+    float price = 4;
+    bool availability = 5;
+}
+
+message AddMenuItemResponse {
+    string id = 1;
+}
+
+message GetMenuRequest {
+    string restaurant_id = 1;
+}
+
+message GetMenuResponse {
+    repeated MenuItem items = 1;
+}
+
+message MenuItem {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    float price = 4;
+    bool availability = 5;
+}

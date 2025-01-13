@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package delivery;
+
+option go_package = "/internal/adapter/grpc/pb";
+
+service DeliveryService{
+  rpc AssignOrder(AssignOrderRequest) returns (AssignOrderResponse);
+  rpc GetDeliveryStatus (GetDeliveryStatusRequest) returns (GetDeliveryStatusResponse);
+  rpc UpdatePersonnelLocation (UpdateLocationRequest) returns (UpdateLocationResponse);
+}
+
+message AssignOrderRequest{
+  string orderID = 1;
+  Location pickupLocation = 2;
+  Location deliveryLocation =3;
+
+}
+
+message Location{
+  float Lat = 1;
+	float Lng = 2;
+}
+
+message AssignOrderResponse{
+  DeliveryPersonal deliveryPersonal = 1;
+}
+
+message DeliveryPersonal{
+  string id = 1;
+  string Name   =2;        
+	string Phone          =3;
+	string Status       =4;
+	Location CurrentLocation = 5; 
+	string Vehicle       =6;
+}
+
+message GetDeliveryStatusRequest{
+  string orderID = 1;
+}
+
+message GetDeliveryStatusResponse{
+  DeliveryPersonal deliveryPersonal = 1;
+}
+
+message UpdateLocationRequest{
+  string id = 1;
+  Location CurrentLocation = 2; 
+}
+
+message UpdateLocationResponse {
+  string status = 1;
+}

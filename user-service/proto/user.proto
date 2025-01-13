@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "/internal/adapter/grpc/pb";
+
+// Service Definitions
+service UserService {
+  rpc RegisterUser(UserRequest) returns (UserResponse);
+  rpc AuthenticateUser(AuthRequest) returns (AuthResponse);
+  rpc VerifyEmail(VerifyEmailRequest) returns (VerifyEmailResponse);
+  rpc VerifyOTP(VerifyOTPRequest) returns (VerifyOTPResponse);
+  rpc UserAddress(AddressRequest) returns (AddressResponse);
+}
+
+// UserClient message
+message UserClient {
+  string name = 1;
+  string email = 2;
+  string phone = 3;
+  bytes password = 4;
+}
+
+// UserUpdateClient message
+message UserUpdateClient {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  bytes password = 5;
+}
+
+// User message
+message User {
+  string id = 1; // ObjectID will be string in proto
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  bytes password = 5;
+  string user_type = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
+}
+
+// Address message
+message Address {
+  string id = 1; // ObjectID will be string in proto
+  string address_1 = 2;
+  string user_id = 3;
+  string city = 4;
+  string country = 5;
+}
+
+// AddressClient message
+message AddressClient {
+  string address_1 = 1;
+  string user_id = 2;
+  string city = 3;
+  string country = 4;
+  string email = 5;
+
+}
+
+// Login message
+message Login {
+  string email = 1;
+  bytes password = 2;
+}
+
+// UserRequest and UserResponse for RegisterUser
+message UserRequest {
+  UserClient user = 1;
+}
+
+message UserResponse {
+  User user = 1;
+  string token =2;
+  string message = 3;
+}
+
+// AuthRequest and AuthResponse for AuthenticateUser
+message AuthRequest {
+  Login login = 1;
+}
+
+message AuthResponse {
+  User user = 1;
+  string token = 2;
+  string message = 3;
+}
+
+// VerifyEmailRequest and Response
+message VerifyEmailRequest {
+  string email = 1;
+}
+
+message VerifyEmailResponse {
+  string message = 1;
+}
+
+// VerifyOTPRequest and Response
+message VerifyOTPRequest {
+  int64 otp = 2;
+  string email = 1;
+}
+
+message VerifyOTPResponse {
+  string message = 1;
+}
+
+// AddressRequest and Response
+message AddressRequest {
+  AddressClient address = 1;
+}
+
+message AddressResponse {
+  string message = 1;
+}

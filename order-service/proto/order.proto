@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "/internal/adapter/grpc/pb";
+
+
+service OrderService {
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+    rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+    rpc ListOrdersByUser(ListOrdersByUserRequest) returns (ListOrdersByUserResponse);
+    rpc ListOrdersByRestaurant(ListOrdersByRestaurantRequest) returns (ListOrdersByRestaurantResponse);
+}
+
+message CreateOrderRequest {
+    string user_id = 1;
+    string restaurant_id = 2;
+    repeated OrderItem items = 3;
+    float total_amount = 4;
+}
+
+message CreateOrderResponse {
+    string id = 1;
+}
+
+message GetOrderRequest {
+    string id = 1;
+}
+
+message GetOrderResponse {
+    string id = 1;
+    string user_id = 2;
+    string restaurant_id = 3;
+    repeated OrderItem items = 4;
+    float total_amount = 5;
+    string status = 6;
+    string created_at = 7;
+}
+
+message UpdateOrderStatusRequest {
+    string id = 1;
+    string status = 2;
+}
+
+message UpdateOrderStatusResponse {
+    bool success = 1;
+}
+
+message ListOrdersByUserRequest {
+    string user_id = 1;
+}
+
+message ListOrdersByUserResponse {
+    repeated GetOrderResponse orders = 1;
+}
+
+message ListOrdersByRestaurantRequest {
+    string restaurant_id = 1;
+}
+
+message ListOrdersByRestaurantResponse {
+    repeated GetOrderResponse orders = 1;
+}
+
+message OrderItem {
+    string menu_item_id = 1;
+    string name = 2;
+    int32 quantity = 3;
+    float price = 4;
+}
